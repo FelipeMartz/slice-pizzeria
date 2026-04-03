@@ -9,7 +9,7 @@ interface HeaderCartProps {
   onRemoveItem: (pizzaId: string) => void
   onUpdateQuantity: (pizzaId: string, delta: number) => void
   onClearCart: () => void
-  onSendOrder: (address: string) => Promise<void>
+  onSendOrder: (name: string, address: string) => Promise<void>
   isSending: boolean
 }
 
@@ -22,6 +22,7 @@ export default function HeaderCart({
   isSending,
 }: HeaderCartProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [name, setName] = useState('')
   const [address, setAddress] = useState('')
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
@@ -40,11 +41,16 @@ export default function HeaderCart({
   }, [])
 
   const handleSend = async () => {
+    if (!name.trim()) {
+      alert('Por favor ingresa tu nombre')
+      return
+    }
     if (!address.trim()) {
       alert('Por favor ingresa tu dirección')
       return
     }
-    await onSendOrder(address)
+    await onSendOrder(name, address)
+    setName('')
     setAddress('')
     setIsOpen(false)
   }
@@ -155,6 +161,18 @@ export default function HeaderCart({
                   </span>
                 </div>
 
+                {/* Campo nombre */}
+                <div className="mb-3">
+                  <label className="block text-gray-400 text-xs mb-2">Tu nombre</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Ej: Juan Pérez"
+                    className="w-full p-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#c9a959]"
+                  />
+                </div>
+
                 {/* Campo dirección */}
                 <div className="mb-4">
                   <label className="block text-gray-400 text-xs mb-2">Dirección de entrega</label>
@@ -169,12 +187,12 @@ export default function HeaderCart({
 
                 <motion.button
                   onClick={handleSend}
-                  disabled={isSending || items.length === 0 || !address.trim()}
-                  whileHover={{ scale: (items.length > 0 && address.trim()) ? 1.02 : 1 }}
-                  whileTap={{ scale: (items.length > 0 && address.trim()) ? 0.98 : 1 }}
+                  disabled={isSending || items.length === 0 || !name.trim() || !address.trim()}
+                  whileHover={{ scale: (items.length > 0 && name.trim() && address.trim()) ? 1.02 : 1 }}
+                  whileTap={{ scale: (items.length > 0 && name.trim() && address.trim()) ? 0.98 : 1 }}
                   className="w-full py-3 px-4 bg-gradient-to-r from-[#c9a959] to-[#e6c87a] text-black font-bold text-sm rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSending ? 'Enviando...' : items.length === 0 || !address.trim() ? 'Completa la dirección' : '🚀 Enviar Pedido'}
+                  {isSending ? 'Enviando...' : items.length === 0 || !name.trim() || !address.trim() ? 'Completa los datos' : '🚀 Enviar Pedido'}
                 </motion.button>
 
                 <button

@@ -7,7 +7,7 @@ interface HeaderProps {
   onRemoveItem: (pizzaId: string) => void
   onUpdateQuantity: (pizzaId: string, delta: number) => void
   onClearCart: () => void
-  onSendOrder: (address: string) => Promise<void>
+  onSendOrder: (name: string, address: string) => Promise<void>
   isSending: boolean
 }
 

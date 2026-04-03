@@ -518,6 +518,9 @@ const MenuSection = ({
           <p className="text-gray-400 mt-3 max-w-2xl mx-auto text-sm">
             Cada pizza es elaborada a mano con ingredientes importados
           </p>
+          <p className="text-[#c9a959] mt-2 text-sm font-medium">
+            👆 Toca la pizza para agregar al carrito
+          </p>
         </motion.div>
 
         {/* Categorías */}
@@ -640,11 +643,6 @@ const LandingPage = () => {
     document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
-  const handlePizzaClick = useCallback((pizza: Pizza) => {
-    setSelectedPizza(pizza)
-    setIsModalOpen(true)
-  }, [])
-
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
     setTimeout(() => setSelectedPizza(null), 300)
@@ -685,14 +683,14 @@ const LandingPage = () => {
     setCartItems([])
   }, [])
 
-  const sendOrder = useCallback(async (address: string) => {
+  const sendOrder = useCallback(async (name: string, address: string) => {
     if (cartItems.length === 0) return
     setIsSending(true)
     try {
       const response = await fetch('/api/send-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cartItems, address }),
+        body: JSON.stringify({ items: cartItems, name, address }),
       })
       if (response.ok) {
         alert('¡Pedido enviado con éxito! 🎉')

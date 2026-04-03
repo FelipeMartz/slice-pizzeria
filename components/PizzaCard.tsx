@@ -145,19 +145,6 @@ const PizzaCard = ({ pizza, index, onAddToOrder }: PizzaCardProps) => {
               </motion.p>
             </div>
 
-            {/* Indicador de click */}
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -10 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center text-[#c9a959] text-sm font-semibold mt-auto"
-            >
-              <span>Ver detalles</span>
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </motion.div>
-
             {/* Icono de carrito - hover en esquina inferior derecha */}
             <motion.button
               initial={{ opacity: 0, scale: 0.8 }}

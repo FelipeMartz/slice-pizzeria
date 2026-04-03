@@ -4,10 +4,14 @@ import { CartItem } from '@/types/pizza'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { items, address } = body as { items: CartItem[]; address?: string }
+    const { items, name, address } = body as { items: CartItem[]; name?: string; address?: string }
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: 'El carrito está vacío' }, { status: 400 })
+    }
+
+    if (!name || !name.trim()) {
+      return NextResponse.json({ error: 'Nombre requerido' }, { status: 400 })
     }
 
     if (!address || !address.trim()) {
@@ -27,6 +31,7 @@ export async function POST(request: NextRequest) {
     // Formatear mensaje para Telegram
     let message = `🍕 *NUEVO PEDIDO - Slice Pizzeria*\n`
     message += `📍 San José de Mayo, Uruguay\n\n`
+    message += `👤 *Cliente:* ${name.trim()}\n\n`
     message += `📋 *Productos:*\n`
 
     items.forEach((item, index) => {
