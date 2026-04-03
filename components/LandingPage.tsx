@@ -204,7 +204,7 @@ const FeaturesSection = () => {
     {
       icon: '🔥',
       title: 'Horno de Pizza',
-      description: 'Cocido a 500°C en nuestro horno de leña italiano importado',
+      description: 'Cocido a 500°C en nuestro horno de leña italiano importado. Auténtico estilo napolitano.',
       size: 'lg' as const,
     },
     {
@@ -582,6 +582,9 @@ const FooterSection = () => (
         </h3>
         <p className="text-gray-500 text-sm">
           © 2024 Slice Pizzeria. Todos los derechos reservados.
+        </p>
+        <p className="text-gray-600 text-xs mt-2">
+          Hecho con ❤️ por <span className="text-[#c9a959]">feliwebdev</span>
         </p>
       </div>
 
